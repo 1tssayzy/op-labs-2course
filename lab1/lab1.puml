@@ -1,0 +1,49 @@
+@startuml Cinema
+
+entity "user" as user {
+    *id : int <<PK>>
+    --
+    name : varchar
+    login : varchar
+    password : varchar
+    bonus_card : varchar
+}
+
+entity "movies" as movies {
+    *movie_id : int <<PK>>
+    --
+    name : varchar
+    rate : float
+    release_date : date
+}
+
+entity "room" as room {
+    *id : int <<PK>>
+    --
+    seats : int
+}
+
+entity "seats" as seats {
+    *seat_id : int <<PK>>
+    --
+    seat_number : int
+    room_id : int <<FK>>
+}
+
+entity "order" as order {
+    user_id : int <<FK>>
+    order_date : datetime
+    movie_id : int <<FK>>
+    seat_id : int <<FK>>
+    bonus_card : varchar
+    room_id : int <<FK>>
+}
+
+' Связи
+user ||--o{ order : "makes"
+movies ||--o{ order : "contains"
+room ||--o{ seats : "has"
+seats ||--o{ order : "booked in"
+room ||--o{ order : "used for"
+
+@enduml
