@@ -18,13 +18,7 @@ class Room {
   }
 }
 
-class Categories {
-  constructor(category, name, type) {
-    this.category = category;    // PK
-    this.name = name;
-    this.type = type;
-  }
-}
+
 
 class Movie {
   constructor(id, category, name, rate, oscar = false, release_date) {
@@ -37,13 +31,7 @@ class Movie {
   }
 }
 
-class MoviesList {
-  constructor(movie_id, category, name) {
-    this.movie_id = movie_id;    // PK, FK → movie.id
-    this.category = category;    // FK → categories.category
-    this.name = name;
-  }
-}
+
 
 class Order {
   constructor(session_id, date, ticket_id, movie_id, category, payment, user_id, room_id) {
@@ -55,5 +43,12 @@ class Order {
     this.payment = payment;
     this.user_id = user_id;        // FK → user.id
     this.room_id = room_id;        // FK → room.room_id
+  }
+}
+
+class FreeSeats {
+  constructor(seat_id, room_id){
+    this.seat_id = seat_id; //PK
+    this.room_id = room_id; //PK
   }
 }
