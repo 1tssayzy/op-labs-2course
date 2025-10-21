@@ -1,0 +1,49 @@
+@startuml WhittyDiagram
+left to right direction
+skinparam backgroundColor #888686ff
+skinparam usecase {
+  BackgroundColor #1a1a1a
+  BorderColor white
+  ArrowColor white
+  ActorBorderColor white
+  ActorFontColor white
+  FontColor white
+}
+skinparam actor {
+  BackgroundColor transparent
+  BorderColor white
+  FontColor white
+}
+
+actor User 
+actor Admin
+
+
+User --> (Make a post)
+User --> (Like a post)
+User --> (Send a message to other users)
+User --> (Make a report)
+User --> (Delete the post)
+User --> (Search post by user)
+
+
+Admin --> (Check a report)
+Admin --> (Moderate content)
+Admin --> (Ban user)
+
+
+(Make a post) ..> (Check if user is logged) : <<include>>
+(Search post by user) ..> (Check if user is logged) : <<include>>
+(Delete the post) ..> (Make a post) : <<include>>
+(Like a post) ..> (Make a post) : <<include>>
+(Check a report) ..> (Delete the post) : <<include>>
+
+
+(Send a message to other users) ..> (Check if user is logged) : <<extends>>
+(Search post by user) ..> (Make a post) : <<extends>>
+(Like a post) ..> (Search post by user) : <<extends>>
+(Delete the post) ..> (Moderate content) : <<extends>>
+(Make a post) ..> (Like a post) : <<extends>>
+(Ban user) ..> (Moderate content) : <<extends>>
+
+@enduml
