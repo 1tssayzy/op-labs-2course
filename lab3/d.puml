@@ -1,0 +1,37 @@
+@startuml
+title Make a post
+
+actor Actor
+participant "App Interface" as UI
+participant "PostController" as PC
+participant "ImageService" as IS
+participant "NotificationService" as NS
+database DB
+
+== Upload Image ==
+Actor -> UI : 1. select post image
+UI -> IS : 2. upload image
+IS -> IS : 3. validate image format
+
+alt [valid image format]
+    IS --> UI : valid format
+else [not valid format]
+    IS --> UI : not valid format
+    UI --> Actor : Select supportable format
+end
+
+IS -> DB : SaveImage
+DB --> IS : image ID
+IS --> UI : Image Uploaded successfully
+
+== Create Post ==
+Actor -> UI : enter description
+Actor -> UI : clickPublish()
+UI -> PC : create post request(imageID, caption, tags)
+PC -> DB : save post
+DB --> PC : postID
+PC --> UI : "Post uploaded successfully"
+PC -> NS : notifyFollowers
+NS --> PC : notificationSent
+
+@enduml
