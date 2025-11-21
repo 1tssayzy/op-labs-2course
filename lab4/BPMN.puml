@@ -1,0 +1,93 @@
+@startuml
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam activity {
+  BackgroundColor White
+  BorderColor Black
+  ArrowColor Black
+  FontName Arial
+}
+skinparam swimlane {
+  BorderColor Black
+  TitleBackgroundColor #EFEFEF
+  TitleFontName Arial
+}
+
+
+|#LightBlue|System| Платформа (Backend)
+|#White|User| Пользователь
+
+' Начало процесса
+|User|
+start
+:Нажать "Создать пост";
+
+
+|System|
+:Создать черновик поста;
+note right
+  📄 Draft Entity
+end note
+
+:Загрузить профиль пользователя;
+note right
+  📄 User Profile
+end note
+
+:Отобразить редактор;
+
+
+|User|
+:Ввести текст поста;
+if (Нужно фото/видео?) then (Да)
+  :Выбрать медиафайл;
+  
+  |System|
+  :Загрузка и обработка медиа;
+  note right
+    📄 Media Object
+  end note
+  :Создать превью;
+  :Отобразить медиа в редакторе;
+  
+  |User|
+else (Нет)
+  |User|
+endif
+
+
+:Просмотр черновика;
+
+if (Добавить геолокацию?) then (Да)
+  :Ввести название места;
+  
+  |System|
+  :Поиск локации в базе;
+  note right
+    📄 Geo Data
+  end note
+  :Прикрепить гео-тег;
+  :Отобразить тег локации;
+  
+  |User|
+else (Нет)
+  |User|
+endif
+
+
+:Нажать "Опубликовать";
+
+|System|
+:Сохранить пост в БД;
+note right
+  📄 Post Record
+end note
+
+:Обновить ленту подписчиков;
+
+|User|
+:Пост опубликован;
+
+stop
+
+@enduml
